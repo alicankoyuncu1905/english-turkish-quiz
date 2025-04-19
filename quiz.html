@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Translation Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 700px; margin: auto; }
+        h2 { color: #333; }
+        .word-box { margin-bottom: 20px; }
+        input { padding: 6px; font-size: 16px; }
+        button { padding: 6px 12px; }
+        .feedback { margin-left: 10px; font-weight: bold; }
+        .correct { color: green; }
+        .wrong { color: red; }
+    </style>
+</head>
+<body>
+    <h2>🎯 English → Turkish Quiz</h2>
+    <div id="quiz-container"></div>
+    <script>
+        const quizData = [{"word": "family", "turkish": "aile"}, {"word": "halo", "turkish": "halo"}, {"word": "relation", "turkish": "ilişki"}, {"word": "bourgeoisie", "turkish": "burjuvazi"}, {"word": "production", "turkish": "üretme"}];
+
+        function createQuiz() {
+            const container = document.getElementById('quiz-container');
+            quizData.forEach(({ word, turkish }, index) => {
+                const div = document.createElement('div');
+                div.className = 'word-box';
+                div.innerHTML = `
+                    <label><strong>${index + 1}. ${word}</strong></label><br>
+                    <input type="text" id="input-${index}" placeholder="Türkçe çeviri yazın">
+                    <button onclick="checkAnswer(${index})">Check</button>
+                    <span id="feedback-${index}" class="feedback"></span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function checkAnswer(index) {
+            const input = document.getElementById(`input-${index}`).value.trim().toLowerCase();
+            const correct = quizData[index].turkish.toLowerCase();
+            const feedback = document.getElementById(`feedback-${index}`);
+            if (input === correct) {
+                feedback.textContent = "✅ Doğru!";
+                feedback.className = "feedback correct";
+            } else {
+                feedback.textContent = `❌ Yanlış! Doğru: ${quizData[index].turkish}`;
+                feedback.className = "feedback wrong";
+            }
+        }
+
+        createQuiz();
+    </script>
+</body>
+</html>
